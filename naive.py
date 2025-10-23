@@ -1,5 +1,5 @@
 from help import calculate_distance
-
+import time
 
 def read_points_from_file(filename: str) -> list[tuple]:
     """
@@ -95,8 +95,11 @@ def naive_tsp(points: list[tuple]) -> tuple:
 
 if __name__ == "__main__":
     # Example usage
-    filename = "Instancja_TSP.txt"  # <- podaj swoją nazwę pliku
+    filename = "Instancja_TSP.txt" 
+    start_time = time.perf_counter()
     points = read_points_from_file(filename)
     path, total_distance = naive_tsp(points)
+    end_time = time.perf_counter()
+    print(f"Computation time: {end_time - start_time:.6f} seconds
     print(f"Path taken: {path}")
     print(f"Total distance traveled: {total_distance:.2f}")
