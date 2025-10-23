@@ -100,6 +100,6 @@ if __name__ == "__main__":
     points = read_points_from_file(filename)
     path, total_distance = naive_tsp(points)
     end_time = time.perf_counter()
-    print(f"Computation time: {end_time - start_time:.6f} seconds
+    print(f"Computation time: {end_time - start_time:.6f} seconds")
     print(f"Path taken: {path}")
     print(f"Total distance traveled: {total_distance:.2f}")
