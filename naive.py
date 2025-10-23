@@ -1,5 +1,32 @@
 from help import calculate_distance
 
+
+def read_points_from_file(filename: str) -> list[tuple]:
+    """
+    Read 2D points from a file.
+
+    File format:
+    n               # number of points
+    id x y          # each point with its index and coordinates
+
+    Returns:
+    list of (x, y) tuples
+    """
+    points = []
+    with open(filename, 'r', encoding='utf-8') as file:
+        n = int(file.readline().strip())  # number of points
+        for _ in range(n):
+            line = file.readline().strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) != 3:
+                raise ValueError(f"Invalid line format: '{line}'")
+            _, x, y = parts
+            points.append((int(x), int(y)))
+    return points
+
+
 def closest_pair(start: tuple,points: list[tuple]) -> tuple:
     """
     Find the closest point to a given starting point from a list of points.
@@ -68,7 +95,8 @@ def naive_tsp(points: list[tuple]) -> tuple:
 
 if __name__ == "__main__":
     # Example usage
-    points = [(1, 1), (1, 2), (3, 1), (6, 5), (7, 8)]
+    filename = "Instancja_TSP.txt"  # <- podaj swoją nazwę pliku
+    points = read_points_from_file(filename)
     path, total_distance = naive_tsp(points)
     print(f"Path taken: {path}")
-    print(f"Total distance traveled: {total_distance}")
+    print(f"Total distance traveled: {total_distance:.2f}")
