@@ -14,7 +14,7 @@ def calculate_distance(point1:tuple, point2:tuple) -> float:
     if len(point1) != 2 or len(point2) != 2:
         raise ValueError("Both points must be 2D coordinates.") 
     
-    if not all(isinstance(coord, (int)) and coord>0 for coord in point1 + point2):
+    if not all(isinstance(coord, (int)) and coord>=0 for coord in point1 + point2):
         if not all(isinstance(coord, (int,float)) for coord in point1 + point2):
             raise TypeError("Coordinates must be integers")
         raise TypeError("Coordinates must be positive integers.")

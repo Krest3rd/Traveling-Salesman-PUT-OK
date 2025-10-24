@@ -64,7 +64,7 @@ def naive_tsp(points: list[tuple]) -> tuple:
     """
     if not isinstance(points, list) or not all(isinstance(p, tuple) and len(p) == 2 for p in points):
         raise TypeError("Input must be a list of 2D coordinate tuples.")
-    if not all(isinstance(coord, (int)) and coord>0 for point in points for coord in point):
+    if not all(isinstance(coord, (int)) and coord>=0 for point in points for coord in point):
         raise TypeError("All coordinates must be positive integers")
     
     if not points:
@@ -95,7 +95,7 @@ def naive_tsp(points: list[tuple]) -> tuple:
 
 if __name__ == "__main__":
     # Example usage
-    filename = "instance.txt" 
+    filename = "tsp250.txt" 
     start_time = time.perf_counter()
     points = read_points_from_file(filename)
     path, total_distance = naive_tsp(points)

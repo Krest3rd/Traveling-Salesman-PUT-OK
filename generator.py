@@ -12,4 +12,4 @@ def geterate_instance(count):
 
 
 if __name__ == "__main__":
-    geterate_instance(20)
+    geterate_instance(101)
