@@ -95,7 +95,7 @@ def naive_tsp(points: list[tuple]) -> tuple:
 
 if __name__ == "__main__":
     # Example usage
-    filename = "Instancja_TSP.txt" 
+    filename = "instance.txt" 
     start_time = time.perf_counter()
     points = read_points_from_file(filename)
     path, total_distance = naive_tsp(points)
