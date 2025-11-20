@@ -21,6 +21,31 @@ def calculate_distance(point1:tuple, point2:tuple) -> float:
 
     return sqrt((point1[0] - point2[0]) ** 2 + (point1[1] - point2[1]) ** 2)
 
+def read_points_from_file(filename: str) -> list[tuple]:
+    """
+    Read 2D points from a file.
+
+    File format:
+    n               # number of points
+    id x y          # each point with its index and coordinates
+
+    Returns:
+    list of (x, y) tuples
+    """
+    points = []
+    with open(filename, 'r', encoding='utf-8') as file:
+        n = int(file.readline().strip())  # number of points
+        for _ in range(n):
+            line = file.readline().strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) != 3:
+                raise ValueError(f"Invalid line format: '{line}'")
+            _, x, y = parts
+            points.append((int(x), int(y)))
+    return points
+
 def calculate_distance_matrix(points:list) -> list:
     """
     Calculate the pairwise Euclidean distances between a list of points.
