@@ -178,12 +178,12 @@ if __name__ == "__main__":
                     rho=0.5,
                     q=100.0,
 
-                    verbose=True)
+                    verbose=False)
 
-    best_tour, best_len = aco.run(return_history=False)
     start_time = time.perf_counter()
+    best_tour, best_len = aco.run(return_history=False)
+    end_time = time.perf_counter()
     print("Best tour:", best_tour)
     print("Best length:", best_len)
-    end_time = time.perf_counter()
     print(f"Computation time: {end_time - start_time:.6f} seconds")
 
