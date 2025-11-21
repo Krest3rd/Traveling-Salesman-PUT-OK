@@ -135,9 +135,7 @@ class AntColony:
 
     def run(self, return_history: bool = False) -> Tuple[List[int], float]:
         """Uruchom ACO. Zwraca najlepszy tour i jego długość. Opcjonalnie hist. najlepszych długości."""
-        with open("aco_log.txt", "+a") as f:
-            f.write(f"ACO run with n_ants={self.n_ants}, n_iters={self.n_iters}, alpha={self.alpha}, beta={self.beta}, rho={self.rho}, q={self.q}\n")
-        
+                
         if self.verbose:
             print("Starting ACO with parameters:")
             print(f" n_ants={self.n_ants}, n_iters={self.n_iters}, alpha={self.alpha}, beta={self.beta}, rho={self.rho}, q={self.q}")
@@ -172,12 +170,13 @@ class AntColony:
 # ======= Example usage (main) =======
 if __name__ == "__main__":
     # --- Dla testu: wczytanie z pliku ---
-    points = read_points_from_file("berlin52.txt")
+    fiename = "berlin52.txt"
+    points = read_points_from_file(fiename)
     distance_mat = calculate_distance_matrix(points)
 
     aco = AntColony(distance_mat,
                     n_ants=len(distance_mat),
-                    n_iters=300,
+                    n_iters=1000,
                     alpha=1.0,
                     beta=5.0,
                     rho=0.5,
@@ -191,4 +190,7 @@ if __name__ == "__main__":
     print("Best tour:", best_tour)
     print("Best length:", best_len)
     print(f"Computation time: {end_time - start_time:.6f} seconds")
+    with open("aco_log.txt", "+a") as f:
+            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={aco.alpha}, beta={aco.beta}, rho={aco.rho}, q={aco.q}, best_length={best_len:.4f}, time={end_time - start_time:.6f} seconds, filename={fiename}\n")
+
 
