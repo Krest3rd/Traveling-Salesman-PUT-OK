@@ -175,12 +175,12 @@ if __name__ == "__main__":
     distance_mat = calculate_distance_matrix(points)
 
     aco = AntColony(distance_mat,
-                    n_ants=len(distance_mat),
-                    n_iters=1000,
+                    n_ants=30,
+                    n_iters=300,
                     alpha=1.0,
-                    beta=5.0,
+                    beta=7.0,
                     rho=0.5,
-                    q=100.0,
+                    q=150.0,
 
                     verbose=True)
 
