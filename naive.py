@@ -1,4 +1,4 @@
-from help import calculate_distance
+from help import calculate_distance, read_points_from_file, calculate_distance_matrix
 import time
 
 
@@ -56,7 +56,7 @@ def naive_tsp(distances: list[list[int]], start:int) -> tuple:
     unvisited = set(range(len(distances)))
     unvisited.remove(current_point)
 
-    while distances:
+    while unvisited:
         next_point, distance = closest_pair(current_point, distances, unvisited)
         path.append(next_point)
         total_distance += distance
@@ -64,7 +64,7 @@ def naive_tsp(distances: list[list[int]], start:int) -> tuple:
         current_point = next_point
 
     # Return to the starting point to complete the cycle
-    return_to_start_distance = distances[current_point, path[0]]
+    return_to_start_distance = distances[current_point][path[0]]
     total_distance += return_to_start_distance
     path.append(path[0])  # Complete the cycle
 
@@ -73,9 +73,11 @@ def naive_tsp(distances: list[list[int]], start:int) -> tuple:
 
 if __name__ == "__main__":
     # Example usage
-    filename = "tsp250.txt" 
+    filename = "instancja_TSP.txt"
+    points = read_points_from_file(filename)
+    mat = calculate_distance_matrix(points)
     start_time = time.perf_counter()
-    path, total_distance = naive_tsp(points)
+    path, total_distance = naive_tsp(mat,0)
     end_time = time.perf_counter()
     print(f"Computation time: {end_time - start_time:.6f} seconds")
     print(f"Path taken: {path}")
