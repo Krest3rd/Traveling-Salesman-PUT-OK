@@ -3,6 +3,7 @@ import random
 import math
 from typing import List, Tuple
 from help import calculate_distance, read_points_from_file, calculate_distance_matrix
+from naive import naive_tsp
 import time
 
 
@@ -64,8 +65,9 @@ class AntColony:
 
         # inicjalizacja feromonu
         if init_pheromone is None:
-            # inna propozycja znaleziona na necie: 1 / (n * L_nn) gdzie L_nn to długość trasy zachłannej
-            self.pheromone = [[1.0 for _ in range(self.n)] for _ in range(self.n)]
+            naive_length = naive_tsp(self.distance_mat,0)[1]
+            tau0 = 1.0 / (self.n * naive_length)
+            self.pheromone = [[tau0 for _ in range(self.n)] for _ in range(self.n)]
         else:
             self.pheromone = [[init_pheromone for _ in range(self.n)] for _ in range(self.n)]
 
@@ -137,9 +139,6 @@ class AntColony:
         best_length = float('inf')
         history = []
 
-        # można by tu zrobić jakoś żeby init_pheromone było na podstawie zachłanego ale nie chcę mi się o tym teraz myśleć
-        # tutaj zostawiam początkowy równy pheromone
-
         for iteration in range(1, self.n_iters + 1):
             all_tours = []
             all_lengths = []
@@ -171,8 +170,8 @@ if __name__ == "__main__":
     distance_mat = calculate_distance_matrix(points)
 
     aco = AntColony(distance_mat,
-                    n_ants=30,
-                    n_iters=200,
+                    n_ants=len(distance_mat),
+                    n_iters=1000,
                     alpha=1.0,
                     beta=5.0,
                     rho=0.5,
