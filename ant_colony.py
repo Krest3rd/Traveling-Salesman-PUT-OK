@@ -168,6 +168,6 @@ if __name__ == "__main__":
     print("Best length:", best_len)
     print(f"Computation time: {end_time - start_time:.6f} seconds")
     with open("aco_log.txt", "+a") as f:
-            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={aco.alpha}, beta={aco.beta}, rho={aco.rho}, q={aco.q}, best_length={best_len:.4f}, time={end_time - start_time:.6f} seconds, filename={fiename}\n")
+            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={aco.alpha}, beta={aco.beta}, rho={aco.rho}, q={aco.q}, best_length={best_len:.4f}, time={end_time - start_time:.6f} seconds, filename={filename}\n")
 
 
