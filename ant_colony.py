@@ -5,18 +5,14 @@ from typing import List, Tuple
 from help import calculate_distance, read_points_from_file, calculate_distance_matrix
 from naive import naive_tsp
 import time
+import numpy as np
 
 
-def tour_length(tour: List[int], distance_mat: List[List[float]]) -> float:
-    # Oblicz długość cyklu (z powrotem do punktu startowego).
+def tour_length(tour: List[int], distance_mat: np.ndarray) -> float:
     if not tour:
-        return float('inf')
-    length = 0.0
-    for i in range(len(tour) - 1):
-        length += distance_mat[tour[i]][tour[i+1]]
-    # powrót do startu
-    length += distance_mat[tour[-1]][tour[0]]
-    return length
+        return np.inf
+    idx = np.array(tour + [tour[0]])
+    return distance_mat[idx[:-1], idx[1:]].sum()
 
 class AntColony:
     """
@@ -32,7 +28,7 @@ class AntColony:
     - init_pheromone: początkowa wartość feromonu (jeśli None to ustawiana automatycznie)
     """
     def __init__(self,
-                 distance_mat: List[List[float]],
+                 distance_mat: np.ndarray,
                  n_ants: int = 20,
                  n_iters: int = 200,
                  alpha: float = 1.0,
@@ -54,49 +50,33 @@ class AntColony:
 
 
         # heurystyczny(zachłanny): eta[i][j] = 1 / dystans 
-        self.eta = [[0.0]*self.n for _ in range(self.n)]
-        for i in range(self.n):
-            for j in range(self.n):
-                if i == j:
-                    self.eta[i][j] = 0.0
-                else:
-                    d = distance_mat[i][j]
-                    self.eta[i][j] = 1.0 / d if d > 0 else 1e9
+        d = np.array(distance_mat, dtype=np.float64)
+        with np.errstate(divide='ignore'):
+            eta = np.where(d > 0, 1.0 / d, 1e9)
+        np.fill_diagonal(eta, 0.0)
+        self.eta = eta
 
         # inicjalizacja feromonu
         if init_pheromone is None:
             naive_length = naive_tsp(self.distance_mat,0)[1]
             tau0 = 1.0 / (self.n * naive_length)
-            self.pheromone = [[tau0 for _ in range(self.n)] for _ in range(self.n)]
+            self.pheromone = np.full((self.n, self.n), tau0, dtype=np.float64)
         else:
-            self.pheromone = [[init_pheromone for _ in range(self.n)] for _ in range(self.n)]
+            self.pheromone = np.full((self.n, self.n), init_pheromone, dtype=np.float64)
 
     def _select_next(self, current: int, unvisited: set) -> int:
         """Losowy wybór następnego miasta zgodnie z regułą ACO.
          Zwraca indeks następnego miasta.
          Jest to losowe ale można by to jakoś zachłannym jeszcze dla denom == 0
         """
-        probs = []
-        denom = 0.0
-        for j in unvisited:
-            tau = self.pheromone[current][j] ** self.alpha
-            eta = self.eta[current][j] ** self.beta
-            val = tau * eta
-            probs.append((j, val))
-            denom += val
-        if denom == 0.0:
-            # wybierz losowo z unvisited
-            return random.choice(list(unvisited))
-
-        # ruletka
-        pick = random.random() * denom
-        cumulative = 0.0
-        for j, val in probs:
-            cumulative += val
-            if cumulative >= pick:
-                return j
-        # awaryjnie zwróć ostatni
-        return probs[-1][0]
+        unvisited = np.array(list(unvisited))
+        tau = self.pheromone[current, unvisited] ** self.alpha
+        eta = self.eta[current, unvisited] ** self.beta
+        weights = tau * eta
+        if weights.sum() == 0:
+            return np.random.choice(unvisited)
+        probs = weights / weights.sum()
+        return np.random.choice(unvisited, p=probs)
 
     def _construct_solution(self, start: int = None) -> List[int]:
         """Zbuduj jeden tour dla jednej mrówki."""
@@ -117,11 +97,8 @@ class AntColony:
     def _update_pheromones(self, all_tours: List[List[int]], all_lengths: List[float]):
         """Osłabianie i zwiększanie feromonu (standardowy mechanizm)."""
         # osłabianie feromonu
-        for i in range(self.n):
-            for j in range(self.n):
-                self.pheromone[i][j] *= (1.0 - self.rho)
-                if self.pheromone[i][j] < 1e-16:
-                    self.pheromone[i][j] = 1e-16
+        self.pheromone *= (1.0 - self.rho)
+        np.clip(self.pheromone, 1e-16, None, out=self.pheromone)
 
         # Zwiększanie: każda mrówka zostawia q / L na każdej krawędzi swojej trasy
         for tour, length in zip(all_tours, all_lengths):
@@ -170,8 +147,8 @@ class AntColony:
 # ======= Example usage (main) =======
 if __name__ == "__main__":
     # --- Dla testu: wczytanie z pliku ---
-    fiename = "berlin52.txt"
-    points = read_points_from_file(fiename)
+    filename = "Instancja_TSP.txt"
+    points = read_points_from_file(filename)
     distance_mat = calculate_distance_matrix(points)
 
     aco = AntColony(distance_mat,

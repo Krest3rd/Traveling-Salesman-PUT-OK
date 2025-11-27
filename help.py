@@ -1,4 +1,5 @@
 from math import sqrt
+import numpy as np
 
 def calculate_distance(point1:tuple, point2:tuple) -> float:
     """
@@ -46,7 +47,7 @@ def read_points_from_file(filename: str) -> list[tuple]:
             points.append((int(x), int(y)))
     return points
 
-def calculate_distance_matrix(points:list) -> list:
+def calculate_distance_matrix(points:list) -> np.ndarray:
     """
     Calculate the pairwise Euclidean distances between a list of points.
 
@@ -66,13 +67,15 @@ def calculate_distance_matrix(points:list) -> list:
 
     distance_mat = [[0 for _ in range(len(points))] for _ in range(len(points))]
     for i, point1 in enumerate(points):
-        distances = []
-        for j, point2 in enumerate(points):
-            if i==j:
-                distances.append(0.0)
-                continue
-            distances.append(calculate_distance(point1, point2))
-        distance_mat[i] = distances
+        n = len(points)
+    # Convert points to NumPy array for vectorized math
+    pts = np.array(points, dtype=np.float64)
+
+    # Broadcasting: compute pairwise differences
+    diff = pts[:, np.newaxis, :] - pts[np.newaxis, :, :]   # shape (n, n, dim)
+
+    # Euclidean norm along last axis
+    distance_mat = np.linalg.norm(diff, axis=2)
     return distance_mat
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 from help import calculate_distance, read_points_from_file, calculate_distance_matrix
 import time
+import numpy as np
 
 
 def closest_pair(start: int, distance_mat: list, unvisited: set) -> tuple:
@@ -28,7 +29,7 @@ def closest_pair(start: int, distance_mat: list, unvisited: set) -> tuple:
     return closest_point, min_distance
 
 
-def naive_tsp(distances: list[list[int]], start:int) -> tuple:
+def naive_tsp(distance_mat: np.ndarray, start:int) -> tuple:
     """
     Solve the Traveling Salesman Problem (TSP) using a naive nearest neighbor approach.
 
@@ -40,33 +41,34 @@ def naive_tsp(distances: list[list[int]], start:int) -> tuple:
     list: The order of points representing the path taken.
     float: The total distance traveled.
     """
-    if not isinstance(distances, list) or not all(isinstance(row, list) for row in distances):
-        raise TypeError("Distances must be a 2D list.")
-
-    if any(len(row) != len(distances) for row in distances):
-        raise ValueError("Distance matrix must be square.")
 
 
+    n = distance_mat.shape[0]
     total_distance = 0.0
-    path = []
+    path = [start]
 
-    # Start from the first point
-    current_point = start
-    path.append(current_point)
-    unvisited = set(range(len(distances)))
-    unvisited.remove(current_point)
+    # Boolean mask for unvisited nodes
+    unvisited = np.ones(n, dtype=bool)
+    unvisited[start] = False
+    current = start
 
-    while unvisited:
-        next_point, distance = closest_pair(current_point, distances, unvisited)
+    while unvisited.any():
+        # Extract distances from current to all unvisited
+        dists = np.where(unvisited, distance_mat[current], np.inf)
+
+        # Pick the closest unvisited city
+        next_point = np.argmin(dists)
+        distance = dists[next_point]
+
         path.append(next_point)
         total_distance += distance
-        unvisited.remove(next_point)
-        current_point = next_point
+        unvisited[next_point] = False
+        current = next_point
 
-    # Return to the starting point to complete the cycle
-    return_to_start_distance = distances[current_point][path[0]]
-    total_distance += return_to_start_distance
-    path.append(path[0])  # Complete the cycle
+    # Return to start
+    return_to_start = distance_mat[current, start]
+    total_distance += return_to_start
+    path.append(start)
 
     return path, total_distance
 
