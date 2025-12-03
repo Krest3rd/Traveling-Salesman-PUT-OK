@@ -18,7 +18,7 @@ while True:
             n_ants = 100,
             n_iters = 500,
             alpha = random.uniform(0.5, 3.0),
-            beta = random.uniform(1.0, 10.0),
+            beta = random.uniform(2.0, 6.0),
             rho = random.uniform(0.1, 0.9),
             q = random.uniform(50.0, 300.0),
             verbose = True

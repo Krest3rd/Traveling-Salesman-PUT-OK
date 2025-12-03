@@ -47,7 +47,7 @@ class AntColony:
         self.q = q
         self.verbose = verbose
         self.stop_counter = 0
-        self.stop_percent = 0.99
+        self.stop_percent = 0.90
 
 
 
@@ -143,7 +143,7 @@ class AntColony:
             if best_length > old_best_length*self.stop_percent or best_length == old_best_length:
                 self.stop_counter +=1
             else:
-                self.stop_counter += max(0,self.stop_counter-2)
+                self.stop_counter = max(0,self.stop_counter-5)
 
             old_best_length = min(best_length, old_best_length)
             if self.stop_counter >= 100:
