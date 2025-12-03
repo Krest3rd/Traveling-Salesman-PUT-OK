@@ -46,6 +46,8 @@ class AntColony:
         self.rho = rho
         self.q = q
         self.verbose = verbose
+        self.stop_counter = 0
+        self.stop_percent = 0.99
 
 
 
@@ -54,7 +56,7 @@ class AntColony:
         with np.errstate(divide='ignore'):
             eta = np.where(d > 0, 1.0 / d, 1e9)
         np.fill_diagonal(eta, 0.0)
-        self.eta = eta
+        self.eta = eta ** self.beta
 
         # inicjalizacja feromonu
         if init_pheromone is None:
@@ -71,7 +73,7 @@ class AntColony:
         """
         unvisited = np.array(list(unvisited))
         tau = self.pheromone[current, unvisited] ** self.alpha
-        eta = self.eta[current, unvisited] ** self.beta
+        eta = self.eta[current, unvisited]
         weights = tau * eta
         if weights.sum() == 0:
             return np.random.choice(unvisited)
@@ -96,19 +98,22 @@ class AntColony:
 
     def _update_pheromones(self, all_tours: List[List[int]], all_lengths: List[float]):
         """Osłabianie i zwiększanie feromonu (standardowy mechanizm)."""
-        # osłabianie feromonu
+        # Evaporation
         self.pheromone *= (1.0 - self.rho)
-        np.clip(self.pheromone, 1e-16, None, out=self.pheromone)
 
-        # Zwiększanie: każda mrówka zostawia q / L na każdej krawędzi swojej trasy
+        # Build deposit matrix
+        deposit_matrix = np.zeros_like(self.pheromone)
         for tour, length in zip(all_tours, all_lengths):
-            deposit = self.q / length if length > 0 else 0.0
-            for idx in range(len(tour)):
-                a = tour[idx]
-                b = tour[(idx + 1) % len(tour)]
-                # feromon nieskierowany (symetryczny)
-                self.pheromone[a][b] += deposit
-                self.pheromone[b][a] += deposit
+            if length <= 0: 
+                continue
+            deposit = self.q / length
+            idx = np.array(tour + [tour[0]])
+            edges = np.stack([idx[:-1], idx[1:]], axis=1)
+            deposit_matrix[edges[:,0], edges[:,1]] += deposit
+            deposit_matrix[edges[:,1], edges[:,0]] += deposit  # symmetry
+
+        self.pheromone += deposit_matrix
+        np.clip(self.pheromone, 1e-16, None, out=self.pheromone)
 
     def run(self, return_history: bool = False) -> Tuple[List[int], float]:
         """Uruchom ACO. Zwraca najlepszy tour i jego długość. Opcjonalnie hist. najlepszych długości."""
@@ -118,6 +123,7 @@ class AntColony:
             print(f" n_ants={self.n_ants}, n_iters={self.n_iters}, alpha={self.alpha}, beta={self.beta}, rho={self.rho}, q={self.q}")
         best_tour = None
         best_length = float('inf')
+        old_best_length = best_length
         history = []
 
         for iteration in range(1, self.n_iters + 1):
@@ -131,23 +137,36 @@ class AntColony:
                 if length < best_length:
                     best_length = length
                     best_tour = tour.copy()
+            # sprawdzenie warunku stopu
+            imp = (old_best_length - best_length)/old_best_length if old_best_length != float('inf') else 1.0
+            clac = old_best_length*self.stop_percent
+            if best_length > old_best_length*self.stop_percent or best_length == old_best_length:
+                self.stop_counter +=1
+            else:
+                self.stop_counter += max(0,self.stop_counter-2)
+
+            old_best_length = min(best_length, old_best_length)
+            if self.stop_counter >= 100:
+                if self.verbose:
+                    print(f"Stopping early at iteration {iteration} due to no improvement.")
+                break
 
             # aktualizacja feromonów
             self._update_pheromones(all_tours, all_lengths)
 
-            history.append(best_length)
+            history.append(old_best_length)
             if self.verbose and (iteration % max(1, self.n_iters//10) == 0 or iteration == 1):
                 print(f"Iter {iteration}/{self.n_iters}  best_length={best_length:.4f}")
 
         if return_history:
-            return best_tour + [best_tour[0]], best_length, history
+            return best_tour + [best_tour[0]], old_best_length, history
         else:
-            return best_tour + [best_tour[0]], best_length
+            return best_tour + [best_tour[0]], old_best_length
 
 # ======= Example usage (main) =======
 if __name__ == "__main__":
     # --- Dla testu: wczytanie z pliku ---
-    filename = "Instancja_TSP.txt"
+    filename = "./instances/Instancja_TSP.txt"
     points = read_points_from_file(filename)
     distance_mat = calculate_distance_matrix(points)
 
@@ -168,6 +187,6 @@ if __name__ == "__main__":
     print("Best length:", best_len)
     print(f"Computation time: {end_time - start_time:.6f} seconds")
     with open("aco_log.txt", "+a") as f:
-            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={aco.alpha}, beta={aco.beta}, rho={aco.rho}, q={aco.q}, best_length={best_len:.4f}, time={end_time - start_time:.6f} seconds, filename={filename}\n")
+            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={aco.alpha}, beta={aco.beta}, rho={aco.rho}, q={aco.q},\n best_length={best_len:.4f},\n time={end_time - start_time:.6f} seconds,\n filename={filename}\n")
 
 
