@@ -5,9 +5,8 @@ import time
 from ant_colony import AntColony
 
 
-
+min_overall = float('inf')
 while True:
-    min_overall = float('inf')
     overall = 0
     overall_time = 0.0
     for file in glob.glob("./instances/*.txt"):
