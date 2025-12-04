@@ -140,13 +140,15 @@ class AntColony:
             # sprawdzenie warunku stopu
             imp = (old_best_length - best_length)/old_best_length if old_best_length != float('inf') else 1.0
             clac = old_best_length*self.stop_percent
-            if best_length > old_best_length*self.stop_percent or best_length == old_best_length:
+            if best_length > old_best_length*self.stop_percent:
                 self.stop_counter +=1
+                self.rho = min(self.rho + 0.05,0.9) # More evaporation when no improvement (explore)
             else:
-                self.stop_counter = max(0,self.stop_counter-5)
+                self.stop_counter = max(0,self.stop_counter-5) 
+                self.rho = max(self.rho - 0.02,0.1) # Less evaporation when improving (exploit)
 
             old_best_length = min(best_length, old_best_length)
-            if self.stop_counter >= 100:
+            if self.stop_counter >= 50:
                 if self.verbose:
                     print(f"Stopping early at iteration {iteration} due to no improvement.")
                 break
