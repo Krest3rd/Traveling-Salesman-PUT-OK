@@ -15,7 +15,7 @@ while True:
         points = read_points_from_file(file)
         distance_mat = calculate_distance_matrix(points)
         aco = AntColony(distance_mat,
-            n_ants = 100,
+            n_ants = 33,
             n_iters = 500,
             alpha = random.uniform(0.5, 3.0),
             beta = random.uniform(2.0, 6.0),
