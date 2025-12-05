@@ -47,7 +47,7 @@ class AntColony:
         self.q = q
         self.verbose = verbose
         self.stop_counter = 0
-        self.stop_percent = 0.90
+        self.stop_percent = 0.99
 
 
 
@@ -96,6 +96,26 @@ class AntColony:
             current = nxt
         return tour
 
+# Swap edges until no improvement (slows down significantly way faster convergence)
+    def two_opt(self, tour, distance_mat):
+        improved = True
+        best_tour = tour.copy()
+        best_length = tour_length(best_tour, distance_mat)
+
+        while improved:
+            improved = False
+            for i in range(1, len(tour)-2):
+                for j in range(i+1, len(tour)):
+                    if j - i == 1:  # skip adjacent
+                        continue
+                    new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
+                    new_length = tour_length(new_tour, distance_mat)
+                    if new_length < best_length:
+                        best_tour, best_length = new_tour, new_length
+                        improved = True
+            tour = best_tour
+        return best_tour
+
     def _update_pheromones(self, all_tours: List[List[int]], all_lengths: List[float]):
         """Osłabianie i zwiększanie feromonu (standardowy mechanizm)."""
         # Evaporation
@@ -136,19 +156,20 @@ class AntColony:
                 all_lengths.append(length)
                 if length < best_length:
                     best_length = length
+                    tour = self.two_opt(tour, self.distance_mat)
                     best_tour = tour.copy()
             # sprawdzenie warunku stopu
             imp = (old_best_length - best_length)/old_best_length if old_best_length != float('inf') else 1.0
             clac = old_best_length*self.stop_percent
             if best_length > old_best_length*self.stop_percent:
                 self.stop_counter +=1
-                self.rho = min(self.rho + 0.05,0.9) # More evaporation when no improvement (explore)
+                self.rho = min(self.rho + 0.05,0.95) # More evaporation when no improvement (explore)
             else:
                 self.stop_counter = max(0,self.stop_counter-5) 
                 self.rho = max(self.rho - 0.02,0.1) # Less evaporation when improving (exploit)
 
             old_best_length = min(best_length, old_best_length)
-            if self.stop_counter >= 50:
+            if self.stop_counter >= 100:
                 if self.verbose:
                     print(f"Stopping early at iteration {iteration} due to no improvement.")
                 break
@@ -168,7 +189,7 @@ class AntColony:
 # ======= Example usage (main) =======
 if __name__ == "__main__":
     # --- Dla testu: wczytanie z pliku ---
-    filename = "./instances/Instancja_TSP.txt"
+    filename = "./instances/berlin52.txt"
     points = read_points_from_file(filename)
     distance_mat = calculate_distance_matrix(points)
 
