@@ -7,6 +7,7 @@ from naive import naive_tsp
 import numpy as np
 
 
+minavg_overall = float('inf')
 min_overall = float('inf')
 while True:
     ro = random.uniform(0.5, 0.9)
@@ -26,8 +27,9 @@ while True:
 
         overall = 0
         overall_time = 0.0
-
-        for _ in range (10):
+        overall_best = float('inf')
+        for i in range (10):
+            print(f"Run {i+1}/10")
             aco = AntColony(distance_mat,
             n_ants = 200,
             n_iters = 500,
@@ -42,16 +44,25 @@ while True:
             print("Best tour:", best_tour)
             print("Best length:", best_len)
             end_time = time.perf_counter()
+            if best_len < overall_best:
+                overall_best = best_len
             overall += best_len
             overall_time += end_time - start_time
+            print(f"Computation time: {end_time - start_time:.6f} seconds\n")
 
-        avg_len = overall / 10
-        avg_time = overall_time / 10
-        print("Avg length:", avg_len)
-        print(f"Avg computation time: {avg_time:.6f} seconds")
+    if overall_best <= min_overall:
+        min_overall = overall_best
         with open("aco_log.txt", "+a") as f:
-            f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alfa}, beta={bet}, rho={ro}, q={qu},\n best_length={avg_len:.4f},\n time={avg_time:.6f} seconds,\n filename={file}\n")
-    if avg_len < min_overall:
-        min_overall = avg_len
+            f.write(f"New best overall: {min_overall}\n")
+
+    avg_len = overall / 10
+    avg_time = overall_time / 10
+    print("Avg length:", avg_len)
+    print(f"Avg computation time: {avg_time:.6f} seconds")
+    with open("aco_log.txt", "+a") as f:
+        f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alfa}, beta={bet}, rho={ro}, q={qu},\n best_length={overall_best:.4f},\n avg_len={avg_len}\n time={avg_time:.6f} seconds,\n filename={file}\n")
+    if avg_len < minavg_overall:
+        minavg_overall = avg_len
         with open("aco_log.txt", "+a") as f:
-            f.write(f"New best overall(avg): {min_overall} with average time {overall_time/len(glob.glob('./instances/*.txt')):.6f} seconds\n")
+            f.write(f"New best overall(avg): {minavg_overall} with average time {overall_time/len(glob.glob('./instances/*.txt')):.6f} seconds\n")
+    
