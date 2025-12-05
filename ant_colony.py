@@ -114,7 +114,7 @@ class AntColony:
                         best_tour, best_length = new_tour, new_length
                         improved = True
             tour = best_tour
-        return best_tour
+        return best_tour, best_length
 
     def _update_pheromones(self, all_tours: List[List[int]], all_lengths: List[float]):
         """Osłabianie i zwiększanie feromonu (standardowy mechanizm)."""
@@ -156,7 +156,6 @@ class AntColony:
                 all_lengths.append(length)
                 if length < best_length:
                     best_length = length
-                    tour = self.two_opt(tour, self.distance_mat)
                     best_tour = tour.copy()
             # sprawdzenie warunku stopu
             imp = (old_best_length - best_length)/old_best_length if old_best_length != float('inf') else 1.0
@@ -175,7 +174,13 @@ class AntColony:
                 break
 
             # aktualizacja feromonów
-            self._update_pheromones(all_tours, all_lengths)
+            sorted_lengths, sorted_tours = zip(*sorted(zip(all_lengths, all_tours)))
+            x=len(all_lengths)//10
+            for i in range(x):  # only top 10% ants deposit pheromone
+                tour,length = self.two_opt(sorted_tours[i], self.distance_mat)
+                all_tours[i] = tour
+                all_lengths[i] = length
+            self._update_pheromones(all_tours[:x:], all_lengths[:x:])
 
             history.append(old_best_length)
             if self.verbose and (iteration % max(1, self.n_iters//10) == 0 or iteration == 1):
