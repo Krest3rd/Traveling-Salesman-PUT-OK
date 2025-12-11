@@ -102,8 +102,20 @@ class AntColony:
         best_tour = tour.copy()
         best_length = tour_length(best_tour, distance_mat)
 
-        while improved:
-            improved = False
+        if len(tour) <= 150:
+            while improved:
+                improved = False
+                for i in range(1, len(tour)-2):
+                    for j in range(i+1, len(tour)):
+                        if j - i == 1:  # skip adjacent
+                            continue
+                        new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
+                        new_length = tour_length(new_tour, distance_mat)
+                        if new_length < best_length:
+                            best_tour, best_length = new_tour, new_length
+                            improved = True
+                tour = best_tour
+        else:
             for i in range(1, len(tour)-2):
                 for j in range(i+1, len(tour)):
                     if j - i == 1:  # skip adjacent
@@ -114,6 +126,8 @@ class AntColony:
                         best_tour, best_length = new_tour, new_length
                         improved = True
             tour = best_tour
+            
+
         return best_tour, best_length
 
     def _update_pheromones(self, all_tours: List[List[int]], all_lengths: List[float]):
@@ -168,7 +182,7 @@ class AntColony:
                 self.rho = max(self.rho - 0.02,0.1) # Less evaporation when improving (exploit)
 
             old_best_length = min(best_length, old_best_length)
-            if self.stop_counter >= 100:
+            if self.stop_counter >= 30:
                 if self.verbose:
                     print(f"Stopping early at iteration {iteration} due to no improvement.")
                 break
@@ -183,7 +197,7 @@ class AntColony:
             self._update_pheromones(all_tours[:x:], all_lengths[:x:])
 
             history.append(old_best_length)
-            if self.verbose and (iteration % max(1, self.n_iters//10) == 0 or iteration == 1):
+            if self.verbose and (iteration % max(1, self.n_iters//100) == 0 or iteration == 1):
                 print(f"Iter {iteration}/{self.n_iters}  best_length={best_length:.4f}")
 
         if return_history:
