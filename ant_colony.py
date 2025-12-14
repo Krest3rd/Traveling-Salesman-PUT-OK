@@ -36,6 +36,7 @@ class AntColony:
                  rho: float = 0,
                  q: float = 100.0,
                  init_pheromone: float = None,
+                 stop_condition: int = 60,
                  verbose: bool = False):
         self.distance_mat = distance_mat
         self.n = len(distance_mat)
@@ -46,8 +47,17 @@ class AntColony:
         self.rho = rho
         self.q = q
         self.verbose = verbose
+        self.stop_condition = stop_condition
         self.stop_counter = 0
         self.stop_percent = 0.99
+
+        if self.n > 300:
+            self.candidate_list = [[] for _ in range(self.n)]
+            for i in range(self.n):
+                dists = np.argsort(distance_mat[i])
+                cutoff = distance_mat[i][dists[100]] # keep only 50 nearest neighbors
+                nearest = [j for j in range(self.n) if distance_mat[i][j] <= cutoff and j != i]
+                self.candidate_list[i] = nearest
 
 
 
@@ -97,7 +107,7 @@ class AntColony:
         return tour
 
 # Swap edges until no improvement (slows down significantly way faster convergence)
-    def two_opt(self, tour, distance_mat):
+    def two_opt(self, tour, distance_mat, override=False):
         improved = True
         best_tour = tour.copy()
         best_length = tour_length(best_tour, distance_mat)
@@ -115,7 +125,7 @@ class AntColony:
                             best_tour, best_length = new_tour, new_length
                             improved = True
                 tour = best_tour
-        else:
+        elif len(tour) <= 300 or override:
             for i in range(1, len(tour)-2):
                 for j in range(i+1, len(tour)):
                     if j - i == 1:  # skip adjacent
@@ -126,6 +136,23 @@ class AntColony:
                         best_tour, best_length = new_tour, new_length
                         improved = True
             tour = best_tour
+        else:
+            improved = False
+            for i in range(1, len(tour)-2):
+                city_i = best_tour[i]
+                # Only consider j among k nearest neighbors of city_i
+                for neighbor in self.candidate_list[city_i]:
+                    j = best_tour.index(neighbor)  # find position of neighbor in tour
+                    if j - i == 1 or j <= i:  # skip adjacent or invalid
+                        continue
+                    new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
+                    new_length = tour_length(new_tour, distance_mat)
+                    if new_length < best_length:
+                        best_tour, best_length = new_tour, new_length
+                        improved = True
+            tour = best_tour
+
+                    
             
 
         return best_tour, best_length
@@ -149,7 +176,7 @@ class AntColony:
         self.pheromone += deposit_matrix
         np.clip(self.pheromone, 1e-16, None, out=self.pheromone)
 
-    def run(self, return_history: bool = False) -> Tuple[List[int], float]:
+    def run(self) -> Tuple[List[int], float]:
         """Uruchom ACO. Zwraca najlepszy tour i jego długość. Opcjonalnie hist. najlepszych długości."""
                 
         if self.verbose:
@@ -158,9 +185,8 @@ class AntColony:
         best_tour = None
         best_length = float('inf')
         old_best_length = best_length
-        history = []
 
-        for iteration in range(1, self.n_iters + 1):
+        for iteration in range(0, self.n_iters):
             all_tours = []
             all_lengths = []
             for ant in range(self.n_ants):
@@ -168,12 +194,18 @@ class AntColony:
                 length = tour_length(tour, self.distance_mat)
                 all_tours.append(tour)
                 all_lengths.append(length)
-                if length < best_length:
-                    best_length = length
-                    best_tour = tour.copy()
+
+            sorted_lengths, sorted_tours = zip(*sorted(zip(all_lengths, all_tours)))
+            x=len(all_lengths)//10
+            for i in range(x):  # only top 10% ants deposit pheromone
+                tour,length = self.two_opt(sorted_tours[i], self.distance_mat, iteration % 10==0)
+                all_tours[i] = tour
+                all_lengths[i] = length
+
+            best_length = min(all_lengths[:10])
+            best_tour = all_tours[all_lengths.index(best_length)]
+
             # sprawdzenie warunku stopu
-            imp = (old_best_length - best_length)/old_best_length if old_best_length != float('inf') else 1.0
-            clac = old_best_length*self.stop_percent
             if best_length > old_best_length*self.stop_percent:
                 self.stop_counter +=1
                 self.rho = min(self.rho + 0.05,0.95) # More evaporation when no improvement (explore)
@@ -182,28 +214,20 @@ class AntColony:
                 self.rho = max(self.rho - 0.02,0.1) # Less evaporation when improving (exploit)
 
             old_best_length = min(best_length, old_best_length)
-            if self.stop_counter >= 30:
+            if self.stop_counter >= self.stop_condition:
                 if self.verbose:
-                    print(f"Stopping early at iteration {iteration} due to no improvement.")
+                    print(f"Stopping early at iteration {iteration+1} due to no improvement.")
                 break
 
             # aktualizacja feromonów
-            sorted_lengths, sorted_tours = zip(*sorted(zip(all_lengths, all_tours)))
-            x=len(all_lengths)//10
-            for i in range(x):  # only top 10% ants deposit pheromone
-                tour,length = self.two_opt(sorted_tours[i], self.distance_mat)
-                all_tours[i] = tour
-                all_lengths[i] = length
             self._update_pheromones(all_tours[:x:], all_lengths[:x:])
+            
+            print("best_length:", best_length, "for iteration:", iteration+1)
 
-            history.append(old_best_length)
-            if self.verbose and (iteration % max(1, self.n_iters//100) == 0 or iteration == 1):
-                print(f"Iter {iteration}/{self.n_iters}  best_length={best_length:.4f}")
+            if self.verbose and ((iteration+1) % max(1, self.n_iters//100) == 0 or iteration == 0):
+                print(f"Iter {iteration+1}/{self.n_iters}  best_length={old_best_length:.4f}")
 
-        if return_history:
-            return best_tour + [best_tour[0]], old_best_length, history
-        else:
-            return best_tour + [best_tour[0]], old_best_length
+        return best_tour + [best_tour[0]], old_best_length
 
 # ======= Example usage (main) =======
 if __name__ == "__main__":
