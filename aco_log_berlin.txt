@@ -1,0 +1,45 @@
+ACO run with n_ants=200, n_iters=500, alpha=2.679498198236981, beta=3.9810411299011195, rho=0.661738118850229, q=230.77456510966107,
+ best_length=7698.7255,
+ time=33.058222 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7698.725483957062 with average time 55.097036 seconds
+ACO run with n_ants=200, n_iters=500, alpha=2.507856879013305, beta=4.19705367518724, rho=0.6721663627637279, q=60.83252849956645,
+ best_length=7775.9762,
+ time=29.718659 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7775.976211642887 with average time 49.531098 seconds
+ACO run with n_ants=200, n_iters=500, alpha=2.0058927561449966, beta=4.297836421635706, rho=0.8616205963190922, q=222.94236621173263,
+ best_length=7660.5975,
+ time=32.369400 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7660.597469715043 with average time 53.949000 seconds
+ACO run with n_ants=200, n_iters=500, alpha=2.5737752262321614, beta=4.028506143415464, rho=0.5833361005700914, q=245.57360919842324,
+ best_length=7663.8814,
+ avg_len=7782.94489256003
+ time=29.339674 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7782.94489256003 with average time 48.899457 seconds
+ACO run with n_ants=200, n_iters=500, alpha=0.9338292451375764, beta=2.3968554889771334, rho=0.5588917802219938, q=131.43382062223134,
+ best_length=7576.5457,
+ avg_len=7647.1579825571225
+ time=32.047903 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7647.1579825571225 with average time 53.413172 seconds
+==================================================================================
+New best overall: 7544.365901904088
+ACO run with n_ants=200, n_iters=500, alpha=2.0876706845630246, beta=3.880040041159267, rho=0.5844128509113168, q=101.36830056498613,
+ best_length=7544.3659,
+ avg_len=7555.825143751257
+ time=42.099416 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7555.825143751257 with average time 70.165694 seconds
+9/10 (ten jedyny 7658.9583)
+=======================================================================
+New best overall: 7544.365901904088
+ACO run with n_ants=200, n_iters=500, alpha=2.646548942978288, beta=5.2310181977548496, rho=0.5718709007872587, q=256.43262289422626,
+ best_length=7544.3659,
+ avg_len=7544.365901904088
+ time=43.505696 seconds,
+ filename=./instances/berlin52.txt
+New best overall(avg): 7544.365901904088 with average time 72.509494 seconds
+========================BEST===============================================^

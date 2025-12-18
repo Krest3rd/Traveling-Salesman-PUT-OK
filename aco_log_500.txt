@@ -1,0 +1,182 @@
+Starting ACO with parameters:
+ n_ants=30, n_iters=500, alpha=1.5822454688537455, beta=5.948184486651383, rho=0.7208124356720662, q=148.18906273817592
+New best overall: 91557.74035621213
+ACO run with n_ants=50, n_iters=500, alpha=1.3000048893132452, beta=4.411816592649396, rho=0.7458745706964988, q=250.5770470440115, stop_cond=10
+ best_length=91557.7404,
+ avg_len=92786.93865495596
+ time=149.689375 seconds,
+ filename=./instances/tsp500.txt
+New best overall(avg): 92786.93865495596 with average time 124.741146 seconds
+New best overall: 89105.80241536497
+ACO run with n_ants=50, n_iters=500, alpha=1.7145461559867647, beta=5.360951645491378, rho=0.8472044859214538, q=143.3628678677476, stop_cond=10
+ best_length=89105.8024,
+ avg_len=90714.91394938093
+ time=149.497514 seconds,
+ filename=./instances/tsp500.txt
+New best overall(avg): 90714.91394938093 with average time 124.581261 seconds
+ACO run with n_ants=50, n_iters=500, alpha=1.3793601373535502, beta=5.892102587810063, rho=0.8804089633628149, q=130.49470371884925, stop_cond=10
+ best_length=89630.8604,
+ avg_len=91362.30191920095
+ time=129.942053 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.2706653556962688, beta=4.044678358949193, rho=0.8902489398098999, q=156.89352172376775, stop_cond=10
+ best_length=91610.1356,
+ avg_len=92808.95253896671
+ time=161.506969 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.1514181070346163, beta=5.642748624049776, rho=0.8961273605352225, q=141.0043491248891, stop_cond=10
+ best_length=91981.4837,
+ avg_len=92218.27760478237
+ time=141.024153 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=0.7153795982379649, beta=2.3280838340986394, rho=0.742177042652934, q=114.45002204968159, stop_cond=10
+ best_length=96837.5835,
+ avg_len=98078.16008976832
+ time=158.052492 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.1577131812351193, beta=3.4250603801469293, rho=0.8722262742874052, q=127.9605926108132, stop_cond=10
+ best_length=92845.3002,
+ avg_len=94399.5524237435
+ time=145.985401 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.1501427289829727, beta=5.505399403826875, rho=0.7476650239481651, q=219.47023939649264, stop_cond=10
+ best_length=91253.4903,
+ avg_len=91897.63301351361
+ time=156.567397 seconds,
+ filename=./instances/tsp500.txt
+New best overall: 88138.99255339603
+ACO run with n_ants=50, n_iters=500, alpha=1.2381435782563557, beta=5.793283760921723, rho=0.7322257464196013, q=183.49229067728885, stop_cond=10
+ best_length=88138.9926,
+ avg_len=90991.12338862868
+ time=164.539393 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.4595454591225405, beta=3.0004830528719593, rho=0.7554305964539715, q=43.173190581526214, stop_cond=10
+ best_length=93223.1827,
+ avg_len=94182.86095685253
+ time=150.741305 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.2399246429696544, beta=2.8826189729689307, rho=0.8341469049815204, q=99.3297477121466, stop_cond=10
+ best_length=93799.1651,
+ avg_len=95153.88687972084
+ time=164.992238 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.8514078041290598, beta=5.42953545429294, rho=0.7669755402447833, q=65.2301200964572, stop_cond=10
+ best_length=89185.6024,
+ avg_len=90971.89242115086
+ time=146.945932 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=0.9743343200245236, beta=4.795404630986303, rho=0.7697461448714447, q=237.16846044781425, stop_cond=10
+ best_length=92895.5486,
+ avg_len=93203.92840382401
+ time=140.670232 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.4420361478763195, beta=3.623329662623048, rho=0.803777026631101, q=134.73845375893043, stop_cond=10
+ best_length=92267.8635,
+ avg_len=93027.35647721941
+ time=178.798696 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.352668673486179, beta=2.2110336549058958, rho=0.7056505028677382, q=47.60155068175138, stop_cond=10
+ best_length=95214.6306,
+ avg_len=96921.11811661124
+ time=155.215458 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.4849909039734681, beta=3.5795546981277093, rho=0.8693475268865655, q=225.4277553814843, stop_cond=10
+ best_length=92909.4488,
+ avg_len=93270.80260615442
+ time=173.313799 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.1565071135174732, beta=5.223387634816566, rho=0.8012938867492201, q=52.76657901609056, stop_cond=10
+ best_length=90836.2281,
+ avg_len=92132.7551298377
+ time=160.056666 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.915271631470478, beta=2.3151844096221312, rho=0.7152447021842792, q=188.83971142616954, stop_cond=10
+ best_length=90010.3703,
+ avg_len=91671.58155170642
+ time=221.436236 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=0.5183012244105931, beta=5.535428083622457, rho=0.729203183969092, q=32.75081685875447, stop_cond=10
+ best_length=92162.6261,
+ avg_len=92523.90164137926
+ time=150.332511 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.1269220754865688, beta=5.368615775719191, rho=0.8159163850306397, q=29.92178971812231, stop_cond=10
+ best_length=90592.5891,
+ avg_len=92230.9948394917
+ time=144.211732 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.3274723777295705, beta=5.117799201414332, rho=0.7084617804411603, q=226.26769326682046, stop_cond=10
+ best_length=91002.8379,
+ avg_len=92124.19440832613
+ time=139.804717 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.7381374728250392, beta=5.140485776805624, rho=0.8688350857789033, q=110.93948857307531, stop_cond=10
+ best_length=90694.0446,
+ avg_len=91397.19502427953
+ time=148.754672 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.7657714853173119, beta=5.8768700359534085, rho=0.8473398315436459, q=204.24126251361685, stop_cond=10
+ best_length=89319.1092,
+ avg_len=90624.03231313653
+ time=170.240757 seconds,
+ filename=./instances/tsp500.txt
+New best overall(avg): 90624.03231313653 with average time 141.867297 seconds
+ACO run with n_ants=50, n_iters=500, alpha=1.1382077976586356, beta=4.62737570069644, rho=0.7267459707449595, q=84.77827979029959, stop_cond=10
+ best_length=92316.4998,
+ avg_len=92870.16756170007
+ time=135.432739 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.002732705718959, beta=5.796120627627641, rho=0.7457376908530852, q=98.19857801463371, stop_cond=10
+ best_length=90564.6700,
+ avg_len=91594.30897288072
+ time=158.668810 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.8254624835571236, beta=4.099732217817586, rho=0.7559245940237201, q=129.91869439597463, stop_cond=10
+ best_length=89689.3030,
+ avg_len=91003.48680529433
+ time=177.159187 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.5043711736036003, beta=5.040712560160656, rho=0.792525194495357, q=221.74728779516002, stop_cond=10
+ best_length=90382.5178,
+ avg_len=91557.79991272057
+ time=138.908714 seconds,
+ filename=./instances/tsp500.txt
+=============================================================
+New best overall: 85206.39938455015
+ACO run with n_ants=50, n_iters=500, alpha=1.9610421900905797, beta=4.867396496607679, rho=0.8112395645303425, q=61.88298458757644, stop_cond=10
+ best_length=85206.3994,
+ avg_len=90311.46653994216
+ time=168.032300 seconds,
+ filename=./instances/tsp500.txt
+New best overall(avg): 90311.46653994216 with average time 140.026916 seconds
+==========================================================================
+ACO run with n_ants=50, n_iters=500, alpha=0.8764327911414337, beta=5.985895683923059, rho=0.7358909892789474, q=54.25962796233471, stop_cond=10
+ best_length=90798.3297,
+ avg_len=91822.59730407842
+ time=141.060116 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.108080404424471, beta=5.801891860320631, rho=0.7161212424334849, q=190.4337884740677, stop_cond=10
+ best_length=91000.2265,
+ avg_len=91975.2809146669
+ time=142.016742 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.252078898072467, beta=3.0498495237448284, rho=0.7598757784131928, q=69.91736579856058, stop_cond=10
+ best_length=92836.6444,
+ avg_len=94640.97031068832
+ time=158.313339 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.9656146712162719, beta=2.780319785672534, rho=0.7893745281322301, q=42.300002713021584, stop_cond=10
+ best_length=90697.8266,
+ avg_len=91956.20349867677
+ time=193.462117 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=1.6628872470899758, beta=4.453943741527603, rho=0.7787736884562646, q=46.6257992128698, stop_cond=10
+ best_length=90041.1782,
+ avg_len=91584.18399863037
+ time=171.811079 seconds,
+ filename=./instances/tsp500.txt
+ACO run with n_ants=50, n_iters=500, alpha=0.8317239761526963, beta=3.569436612146913, rho=0.7109666708299317, q=205.81479355932416, stop_cond=10
+ best_length=93533.0324,
+ avg_len=94961.06839098102
+ time=150.373042 seconds,
+ filename=./instances/tsp500.txt

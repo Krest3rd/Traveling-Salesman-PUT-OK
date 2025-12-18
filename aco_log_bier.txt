@@ -1,0 +1,123 @@
+New best overall: 120058.59903201318
+ACO run with n_ants=100, n_iters=500, alpha=0.885037026045699, beta=5.848771106541432, rho=0.7459061725909095, q=350.3331312240098,
+ best_length=120058.5990,
+ avg_len=122115.5176418313
+ time=234.167585 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 122115.5176418313 with average time 390.279308 seconds
+New best overall: 119032.33317375068
+ACO run with n_ants=100, n_iters=500, alpha=0.7897264611023473, beta=3.5128102823925, rho=0.7935810421277093, q=290.5830604383622,
+ best_length=119032.3332,
+ avg_len=120298.8440805208
+ time=243.419745 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 120298.8440805208 with average time 405.699575 seconds
+New best overall: 118293.52381566973
+ACO run with n_ants=100, n_iters=500, alpha=1.9917050131510554, beta=2.745371076896034, rho=0.7207742589923332, q=321.78506828461894,
+ best_length=118293.5238,
+ avg_len=119141.6498476596
+ time=84.866757 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 119141.6498476596 with average time 141.444595 seconds
+ACO run with n_ants=100, n_iters=500, alpha=1.1882434683720628, beta=5.035317296087803, rho=0.8075364396640966, q=258.91984622546056,
+ best_length=118669.5588,
+ avg_len=118984.6927688658
+ time=152.105033 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 118984.6927688658 with average time 253.508388 seconds
+ACO run with n_ants=100, n_iters=500, alpha=1.1576583696623168, beta=3.3324828627361454, rho=0.8236684471702774, q=125.3980174878873,
+ best_length=118554.6193,
+ avg_len=118856.51122886808
+ time=117.122723 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 118856.51122886808 with average time 195.204539 seconds
+ACO run with n_ants=100, n_iters=500, alpha=1.4788957553363098, beta=2.9886995122256175, rho=0.8185684645478041, q=346.8734722523413,
+ best_length=118366.6638,
+ avg_len=118771.69610036937
+ time=95.454027 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 118771.69610036937 with average time 159.090045 seconds
+ACO run with n_ants=100, n_iters=500, alpha=1.5883457879106628, beta=3.863772863464583, rho=0.7993448683862036, q=471.5440505262421,
+ best_length=118612.0001,
+ avg_len=118986.44243892073
+ time=96.324971 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=0.654759688012257, beta=4.523205687898854, rho=0.886573910982436, q=327.34919244552555,
+ best_length=122426.8712,
+ avg_len=124331.21922018976
+ time=229.868212 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.2873410711756834, beta=4.674803200204311, rho=0.7775533821489513, q=86.68852916609765,
+ best_length=118506.6926,
+ avg_len=118888.89236191509
+ time=122.659438 seconds,
+ filename=./instances/bier127.txt
+==================================
+New best overall: 118293.52381566973
+ACO run with n_ants=100, n_iters=500, alpha=1.6917448397755321, beta=2.2542376512454214, rho=0.8926960122537464, q=189.45888737759307,
+ best_length=118293.5238,
+ avg_len=119040.82998922141
+ time=86.453051 seconds,
+ filename=./instances/bier127.txt
+==========================
+ACO run with n_ants=100, n_iters=500, alpha=0.7115813897360594, beta=3.933737058897157, rho=0.8703971504493146, q=428.1762413706265,
+ best_length=120721.6150,
+ avg_len=122705.95601719157
+ time=236.975984 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.332657640378957, beta=4.932651996865401, rho=0.7586964020030996, q=488.9685575432529,
+ best_length=118626.2525,
+ avg_len=118882.31007989946
+ time=115.929187 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.140008531610559, beta=5.877603484801718, rho=0.8244682102894112, q=157.13501342029002,
+ best_length=118946.6681,
+ avg_len=119602.6233852432
+ time=181.884486 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.4906571832356974, beta=4.615124866633084, rho=0.8781113185372895, q=484.59388207119997,
+ best_length=118626.2525,
+ avg_len=119008.51877457928
+ time=94.347244 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.9657009701933892, beta=3.6959845274270524, rho=0.8139659932157752, q=415.49135218506893,
+ best_length=118805.2801,
+ avg_len=119164.00770317449
+ time=86.973139 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=1.2495071292126112, beta=4.216553771840319, rho=0.7044836302774757, q=483.48205738186397,
+ best_length=118736.3118,
+ avg_len=118917.04467690841
+ time=119.975315 seconds,
+ filename=./instances/bier127.txt
+New best overall: 118293.52381566973
+ACO run with n_ants=100, n_iters=500, alpha=1.7239808551409481, beta=2.0181200380378956, rho=0.735614114194825, q=154.25600138206696,
+ best_length=118293.5238,
+ avg_len=119083.4118240228
+ time=88.364766 seconds,
+ filename=./instances/bier127.txt
+ACO run with n_ants=100, n_iters=500, alpha=0.6281022146513204, beta=3.358676645067809, rho=0.7065759431593629, q=431.3178004263608,
+ best_length=122272.5522,
+ avg_len=124574.70734677181
+ time=240.073137 seconds,
+ filename=./instances/bier127.txt
+===============================================
+New best overall: 118293.52381566973
+ACO run with n_ants=100, n_iters=500, alpha=1.8105587628466706, beta=4.46370918219854, rho=0.8289476293636201, q=350.6250844456271,
+ best_length=118293.5238,
+ avg_len=118991.87339387632
+ time=90.434879 seconds,
+ filename=./instances/bier127.txt
+===================================
+ACO run with n_ants=100, n_iters=500, alpha=1.3375646394625906, beta=5.04278992033876, rho=0.7022154588018726, q=472.35802077466565,
+ best_length=118721.2565,
+ avg_len=118986.5519045935
+ time=117.323614 seconds,
+ filename=./instances/bier127.txt
+New best overall: 118833.33154109318
+ACO run with n_ants=120, n_iters=500, alpha=0.8737848456258077, beta=3.985681442985297, rho=0.7892986551884608, q=308.18665048631186,
+ best_length=118833.3315,
+ avg_len=120575.08633623617
+ time=310.405943 seconds,
+ filename=./instances/bier127.txt
+New best overall(avg): 120575.08633623617 with average time 258.671619 seconds
