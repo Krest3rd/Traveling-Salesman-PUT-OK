@@ -51,11 +51,11 @@ class AntColony:
         self.stop_counter = 0
         self.stop_percent = 0.99
 
-        if self.n > 300:
+        if self.n >= 300:
             self.candidate_list = [[] for _ in range(self.n)]
             for i in range(self.n):
                 dists = np.argsort(distance_mat[i])
-                cutoff = distance_mat[i][dists[100]] # keep only 50 nearest neighbors
+                cutoff = distance_mat[i][dists[50]] # keep only 50 nearest neighbors
                 nearest = [j for j in range(self.n) if distance_mat[i][j] <= cutoff and j != i]
                 self.candidate_list[i] = nearest
 
@@ -67,7 +67,9 @@ class AntColony:
             eta = np.where(d > 0, 1.0 / d, 1e9)
         np.fill_diagonal(eta, 0.0)
         self.eta = eta ** self.beta
+        self.initialize_pheromone(init_pheromone)
 
+    def initialize_pheromone(self, init_pheromone: float = None):
         # inicjalizacja feromonu
         if init_pheromone is None:
             naive_length = naive_tsp(self.distance_mat,0)[1]
@@ -107,53 +109,43 @@ class AntColony:
         return tour
 
 # Swap edges until no improvement (slows down significantly way faster convergence)
-    def two_opt(self, tour, distance_mat, override=False):
+    def two_opt(self, tour: List[int]) -> Tuple[List[int], float]:
         improved = True
         best_tour = tour.copy()
-        best_length = tour_length(best_tour, distance_mat)
-
-        if len(tour) <= 150:
+        best_length = tour_length(best_tour, self.distance_mat)
+        x = 0
+        if len(tour) <= 300:
             while improved:
                 improved = False
                 for i in range(1, len(tour)-2):
                     for j in range(i+1, len(tour)):
-                        if j - i == 1:  # skip adjacent
+                        if j - i == 1 or j<=i or j >= len(tour) - 1:  # skip adjacent or invalid
                             continue
-                        new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
-                        new_length = tour_length(new_tour, distance_mat)
-                        if new_length < best_length:
-                            best_tour, best_length = new_tour, new_length
+                        a, b = best_tour[i-1], best_tour[i]
+                        c, d = best_tour[j], best_tour[j+1]
+                        delta = (self.distance_mat[a][c] + self.distance_mat[b][d]) - (self.distance_mat[a][b] + self.distance_mat[c][d])
+                        if delta < 0:
+                            best_tour[i:j+1] = list(reversed(best_tour[i:j+1]))
+                            best_length += delta
                             improved = True
-                tour = best_tour
-        elif len(tour) <= 300 or override:
-            for i in range(1, len(tour)-2):
-                for j in range(i+1, len(tour)):
-                    if j - i == 1:  # skip adjacent
-                        continue
-                    new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
-                    new_length = tour_length(new_tour, distance_mat)
-                    if new_length < best_length:
-                        best_tour, best_length = new_tour, new_length
-                        improved = True
-            tour = best_tour
         else:
-            improved = False
-            for i in range(1, len(tour)-2):
-                city_i = best_tour[i]
-                # Only consider j among k nearest neighbors of city_i
-                for neighbor in self.candidate_list[city_i]:
-                    j = best_tour.index(neighbor)  # find position of neighbor in tour
-                    if j - i == 1 or j <= i:  # skip adjacent or invalid
-                        continue
-                    new_tour = best_tour[:i] + best_tour[i:j][::-1] + best_tour[j:]
-                    new_length = tour_length(new_tour, distance_mat)
-                    if new_length < best_length:
-                        best_tour, best_length = new_tour, new_length
-                        improved = True
-            tour = best_tour
-
-                    
-            
+            improved = True
+            while improved:
+                improved = False
+                for i in range(1, len(tour)-2):
+                    city_i = best_tour[i]
+                    # Only consider j among k nearest neighbors of city_i
+                    for neighbor in self.candidate_list[city_i]:
+                        j = best_tour.index(neighbor)  # find position of neighbor in tour
+                        if j - i == 1 or j <= i or j >= len(best_tour) - 1:  # skip adjacent or invalid
+                            continue
+                        a, b = best_tour[i-1], best_tour[i]
+                        c, d = best_tour[j], best_tour[j+1]
+                        delta = (self.distance_mat[a][c] + self.distance_mat[b][d]) - (self.distance_mat[a][b] + self.distance_mat[c][d])
+                        if delta < 0:
+                            best_tour[i:j+1] = list(reversed(best_tour[i:j+1]))
+                            best_length += delta
+                            improved = True
 
         return best_tour, best_length
 
@@ -170,8 +162,9 @@ class AntColony:
             deposit = self.q / length
             idx = np.array(tour + [tour[0]])
             edges = np.stack([idx[:-1], idx[1:]], axis=1)
-            deposit_matrix[edges[:,0], edges[:,1]] += deposit
-            deposit_matrix[edges[:,1], edges[:,0]] += deposit  # symmetry
+            # Max value to avoid too high pheromone concentration
+            deposit_matrix[edges[:,0], edges[:,1]] = np.minimum(deposit_matrix[edges[:,0], edges[:,1]] + deposit, deposit*5)
+            deposit_matrix[edges[:,1], edges[:,0]] = np.minimum(deposit_matrix[edges[:,1], edges[:,0]] + deposit, deposit*5)  # symmetry
 
         self.pheromone += deposit_matrix
         np.clip(self.pheromone, 1e-16, None, out=self.pheromone)
@@ -186,6 +179,8 @@ class AntColony:
         best_length = float('inf')
         old_best_length = best_length
 
+        x = 3
+
         for iteration in range(0, self.n_iters):
             all_tours = []
             all_lengths = []
@@ -198,7 +193,7 @@ class AntColony:
             sorted_lengths, sorted_tours = zip(*sorted(zip(all_lengths, all_tours)))
             x=len(all_lengths)//10
             for i in range(x):  # only top 10% ants deposit pheromone
-                tour,length = self.two_opt(sorted_tours[i], self.distance_mat, iteration % 10==0)
+                tour,length = self.two_opt(sorted_tours[i])
                 all_tours[i] = tour
                 all_lengths[i] = length
 
@@ -220,7 +215,12 @@ class AntColony:
                 break
 
             # aktualizacja feromonów
-            self._update_pheromones(all_tours[:x:], all_lengths[:x:])
+            if self.stop_counter == self.stop_condition // x:
+                print("Reinitializing pheromones to escape local optimum.")
+                self.initialize_pheromone()
+                x+=3
+            else:
+                self._update_pheromones(all_tours[:x:], all_lengths[:x:])
             
             print("best_length:", best_length, "for iteration:", iteration+1)
 
@@ -247,7 +247,7 @@ if __name__ == "__main__":
                     verbose=True)
 
     start_time = time.perf_counter()
-    best_tour, best_len = aco.run(return_history=False)
+    best_tour, best_len = aco.run()
     end_time = time.perf_counter()
     print("Best tour:", best_tour)
     print("Best length:", best_len)

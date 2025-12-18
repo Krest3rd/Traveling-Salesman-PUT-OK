@@ -4,7 +4,6 @@ import random
 import time
 from ant_colony import AntColony
 import numpy as np
-import cProfile
 
 minavg_overall = float('inf')
 min_overall = float('inf')
@@ -30,7 +29,7 @@ while True:
         for i in range (5):
             print(f"Run {i+1}/5")
             aco = AntColony(distance_mat,
-            n_ants = 50,
+            n_ants = 20,
             n_iters = 500,
             alpha = alpha,
             beta = beta,
@@ -41,7 +40,7 @@ while True:
             )
             start_time = time.perf_counter()
             # best_tour, best_len = aco.run(return_history=False)
-            cProfile.run('best_tour, best_len = aco.run()')
+            best_tour, best_len = aco.run()
             print("Best tour:", best_tour)
             print("Best length:", best_len)
             end_time = time.perf_counter()
@@ -61,7 +60,7 @@ while True:
     print("Avg length:", avg_len)
     print(f"Avg computation time: {avg_time:.6f} seconds")
     with open("aco_log.txt", "+a") as f:
-        f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alpha}, beta={beta}, rho={rho}, q={q}, stop_cond={aco.stop_condition}\n best_length={overall_best:.4f},\n avg_len={avg_len}\n time={avg_time:.6f} seconds,\n filename={file}\n")
+        f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alpha:.17g}, beta={beta:.17g}, rho={rho:.17g}, q={q:.17g}, stop_cond={aco.stop_condition}\n best_length={overall_best:.4f},\n avg_len={avg_len}\n time={avg_time:.6f} seconds,\n filename={file}\n")
     if avg_len <= minavg_overall:
         minavg_overall = avg_len
         with open("aco_log.txt", "+a") as f:
