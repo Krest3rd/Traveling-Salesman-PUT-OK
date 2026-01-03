@@ -268,7 +268,7 @@ class AntColony:
             
             # print("best_length:", best_length, "for iteration:", iteration+1)
 
-            if self.verbose and ((iteration+1) % max(1, self.n_iters//10) == 0 or iteration == 0):
+            if self.verbose and ((iteration+1) % max(1, self.n_iters//100) == 0 or iteration == 0):
                 print(f"Iter {iteration+1}/{self.n_iters}  best_length={old_best_length:.4f}")
 
         return best_tour + [best_tour[0]], old_best_length
@@ -279,10 +279,12 @@ if __name__ == "__main__":
     filename = "./instances/bier127.txt"
     points = read_points_from_file(filename)
     distance_mat = calculate_distance_matrix(points)
-    params = {'n_ants': 100, 'n_iters': 500, 'alpha': 1.8105587628466706, 'beta': 4.46370918219854, 'rho': 0.8289476293636201, 'q': 350.6250844456271, 'stop_condition': 70}
+    params = {'alpha': 2.0, 'beta': 3.0, 'rho': 0.25, 'q': 272.38618498509874}
     aco = AntColony(distance_mat,
+                    n_ants=10,
+                    n_iters=500,
                     **params,
-
+                    stop_condition=50,
                     verbose=True)
 
     # print(tour_length([4, 49, 114, 12, 119, 9, 2, 99, 63, 57, 90, 60, 89, 115, 59, 61, 58, 66, 72, 73, 67, 70, 69, 68, 74, 75, 77, 116, 83, 80, 125, 81, 82, 100, 101, 62, 118, 95, 108, 87, 86, 85, 84, 109, 103, 124, 88, 91, 98, 64, 112, 65, 54, 46, 48, 52, 47, 117, 45, 93, 111, 110, 106, 126, 92, 94, 122, 96, 97, 31, 28, 27, 121, 32, 24, 25, 37, 38, 41, 33, 42, 39, 34, 35, 36, 40, 13, 11, 29, 26, 30, 79, 78, 76, 17, 20, 16, 19, 107, 14, 105, 5, 23, 22, 3, 21, 18, 71, 7, 8, 10, 113, 104, 6, 0, 15, 1, 50, 43, 102, 44, 53, 56, 120, 55, 123, 51, 4],distance_mat))
