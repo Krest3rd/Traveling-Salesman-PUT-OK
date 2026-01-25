@@ -1,0 +1,34 @@
+ants = 100, stop_condition=50
+Cycle 1: params={'alpha': 1.625, 'beta': 2.0, 'rho': 0.3, 'q': 495.2476090638159}, best_avg=119664.4343
+Cycle 2: params={'alpha': 2.0, 'beta': 2.5, 'rho': 0.25, 'q': 383.8168970244573}, best_avg=119534.4978
+Cycle 3: params={'alpha': 2.0, 'beta': 2.5, 'rho': 0.2, 'q': 383.8168970244573}, best_avg=119501.7809
+New best length: 119488.3332 with params: {'alpha': 1.5, 'beta': 2.5, 'rho': 0.2, 'q': 383.8168970244573} and avg=120123.4300
+New best length: 118491.9859 with params: {'alpha': 1.625, 'beta': 2.5, 'rho': 0.2, 'q': 383.8168970244573} and avg=119648.8579
+New best length: 119562.9464 with params: {'alpha': 2.0, 'beta': 2.0, 'rho': 0.2, 'q': 383.8168970244573} and avg=120046.8073
+New best length: 119110.1988 with params: {'alpha': 2.0, 'beta': 2.25, 'rho': 0.2, 'q': 383.8168970244573} and avg=119715.4397
+New best length: 119235.6620 with params: {'alpha': 2.0, 'beta': 2.5, 'rho': 0.2, 'q': 383.8168970244573} and avg=120118.1663
+
+New best length: 118515.4352 with params: {'alpha': 2.0, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 383.8168970244573} and avg=119437.3971
+
+New best length: 119798.3870 with params: {'alpha': 2.0, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 247.62380453190795} and avg=120448.1810
+New best length: 118927.4306 with params: {'alpha': 2.0, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 309.52975566488493} and avg=119809.0067
+Cycle 1: params={'alpha': 2.0, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 383.8168970244573}, best_avg=119501.7809
+New best length: 119396.8050 with params: {'alpha': 1.5, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 383.8168970244573} and avg=119765.8691
+New best length: 118716.9379 with params: {'alpha': 1.875, 'beta': 2.5, 'rho': 0.21250000000000002, 'q': 383.8168970244573} and avg=120128.2982
+
+ants = 100, stop_condition = 30
+New best length: 120119.2231 with params: {'alpha': 1.7626816255482212, 'beta': 1.5575242363715553, 'rho': 0.2685972817397731, 'q': 49.52476090638159}, avg=120337.7007 and median=120225.3452
+New best length: 120524.2530 with params: {'alpha': 0.5, 'beta': 2.0536928123143205, 'rho': 0.2613621315629001, 'q': 184.79695542241723}, avg=122491.4581 and median=122848.1982
+New best length: 119547.5580 with params: {'alpha': 0.875, 'beta': 2.0536928123143205, 'rho': 0.2613621315629001, 'q': 184.79695542241723}, avg=120840.0165 and median=121223.4543
+New best length: 119375.7782 with params: {'alpha': 2.0, 'beta': 2.0536928123143205, 'rho': 0.2613621315629001, 'q': 49.52476090638159}, avg=119868.1585 and median=119751.6407
+New best length: 119193.4964 with params: {'alpha': 2.0, 'beta': 2.0536928123143205, 'rho': 0.2613621315629001, 'q': 272.38618498509874}, avg=120189.9405 and median=120169.7054
+New best length: 119832.4781 with params: {'alpha': 2.0, 'beta': 1.0, 'rho': 0.2613621315629001, 'q': 49.52476090638159}, avg=121083.5365 and median=121396.8855
+New best length: 119316.8790 with params: {'alpha': 2.0, 'beta': 1.5, 'rho': 0.2613621315629001, 'q': 49.52476090638159}, avg=119698.8166 and median=119546.9778
+New best length: 119233.2781 with params: {'alpha': 2.0, 'beta': 3.0, 'rho': 0.2613621315629001, 'q': 49.52476090638159}, avg=120022.1268 and median=119988.7196
+New best length: 119798.3870 with params: {'alpha': 2.0, 'beta': 1.5, 'rho': 0.2, 'q': 49.52476090638159}, avg=120317.1023 and median=120116.2357
+New best length: 119303.8143 with params: {'alpha': 2.0, 'beta': 1.5, 'rho': 0.225, 'q': 49.52476090638159}, avg=120932.1956 and median=120577.5991
+Cycle 1: params={'alpha': 2.0, 'beta': 1.5, 'rho': 0.2, 'q': 49.52476090638159}, best_avg=120317.1023, best_median=120116.2357
+New best length: 119629.7815 with params: {'alpha': 2.0, 'beta': 1.0, 'rho': 0.2, 'q': 49.52476090638159}, avg=120390.9166 and median=119966.9573
+New best length: 119562.4098 with params: {'alpha': 2.0, 'beta': 3.0, 'rho': 0.2, 'q': 49.52476090638159}, avg=120530.7888 and median=120467.5609
+New best length: 120348.1290 with params: {'alpha': 2.0, 'beta': 1.0, 'rho': 0.2, 'q': 49.52476090638159}, avg=120942.1079 and median=120756.0847
+New best length: 119447.5496 with params: {'alpha': 2.0, 'beta': 1.0, 'rho': 0.2, 'q': 160.95547294574015}, avg=120375.1145 and median=119943.7756

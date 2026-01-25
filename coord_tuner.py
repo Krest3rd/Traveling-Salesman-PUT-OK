@@ -18,7 +18,7 @@ def evaluate_params(distance_mat, alpha, beta, rho, q, runs=10):
     for i in range(runs):
         aco = AntColony(
             distance_mat,
-            n_ants=100,
+            n_ants=30,
             n_iters=500,
             alpha=alpha,
             beta=beta,
@@ -112,23 +112,31 @@ def coordinate_descent(distance_mat, max_cycles=10):
         print(f"Cycle {cycle+1}")
         print("====================")
 
+        best_params = params.copy()
+        cycle_best = float('inf')
+        cycle_best_avg = float('inf')
         for param in np.random.permutation(["alpha", "beta", "rho", "q"]):
             print(f"\nOptimizing {param}...")
-            params, best_avg, best_med = search_1d(distance_mat, param, params, ranges[param])
+            params, best_avg, best_med = search_1d(distance_mat, param, best_params, ranges[param])
+            if best_med < cycle_best:
+                cycle_best = best_med
+                cycle_best_avg = best_avg
+                best_params = params.copy()
+            
 
-        print(f"\nCycle {cycle+1} best avg = {best_avg:.4f}, best median = {best_med:.4f}")
+        print(f"\nCycle {cycle+1} best avg = {cycle_best_avg:.4f}, best median = {cycle_best:.4f}")
 
         # Stopping condition: no improvement
-        if best_med >= prev_best - 1e-6:
+        if cycle_best >= prev_best - 1e-6:
             print("\nNo improvement detected. Stopping coordinate descent.")
             break
         
         with open("aco_log_coordinate_descent.txt", "+a") as f:
-            f.write(f"Cycle {cycle+1}: params={params}, best_avg={best_avg:.4f}, best_median={best_med:.4f}\n")
-        prev_best = best_med
+            f.write(f"Cycle {cycle+1}: params={best_params}, best_avg={cycle_best_avg:.4f}, best_median={cycle_best:.4f}\n")
+        prev_best = cycle_best
 
-    print("\nFinal optimized parameters:", params)
-    return params
+    print("\nFinal optimized parameters:", best_params)
+    return best_params
 
 
 # ============================================================
@@ -136,7 +144,7 @@ def coordinate_descent(distance_mat, max_cycles=10):
 # ============================================================
 
 if __name__ == "__main__":
-    filename = "./instances/bier127.txt"
+    filename = "./instances/tsp1000.txt"
     points = read_points_from_file(filename)
     distance_mat = calculate_distance_matrix(points)
 

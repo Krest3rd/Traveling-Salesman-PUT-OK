@@ -9,19 +9,19 @@ minavg_overall = float('inf')
 min_overall = float('inf')
 while True:
 
-    file = "./instances/tsp1000.txt"
+    file = "./instances/berlin52.txt"
     points = read_points_from_file(file)
     distance_mat = calculate_distance_matrix(points)
     alpha=random.uniform(0.5,2.0) 
-    beta=random.uniform(2.0,6.0)
-    rho=random.uniform(0.7,0.9)
+    beta=random.uniform(1.0,3.0)
+    rho=random.uniform(0.2,0.3)
     q=np.mean(distance_mat[distance_mat>0])*random.uniform(0.01,0.10)
 
-    for file in glob.glob("./instances/tsp1000.txt"):
+    for file in glob.glob("./instances/berlin52.txt"):
         print('---------------------------------------------------------------------')
         print(f"Processing file: {file}")
-        points = read_points_from_file(file)
-        distance_mat = calculate_distance_matrix(points)
+        # points = read_points_from_file(file)
+        # distance_mat = calculate_distance_matrix(points)
 
         overall = 0
         overall_time = 0.0
@@ -29,13 +29,13 @@ while True:
         for i in range (5):
             print(f"Run {i+1}/5")
             aco = AntColony(distance_mat,
-            n_ants = 20,
+            n_ants = 200,
             n_iters = 500,
             alpha = alpha,
             beta = beta,
             rho = rho,
             q = q,
-            stop_condition=10,
+            stop_condition=100,
             verbose = True
             )
             start_time = time.perf_counter()
@@ -52,17 +52,17 @@ while True:
 
     if overall_best <= min_overall:
         min_overall = overall_best
-        with open("aco_log.txt", "+a") as f:
+        with open("aco_log_new52.txt", "+a") as f:
             f.write(f"New best overall: {min_overall}\n")
 
     avg_len = overall / 5
     avg_time = overall_time / 5
     print("Avg length:", avg_len)
     print(f"Avg computation time: {avg_time:.6f} seconds")
-    with open("aco_log.txt", "+a") as f:
-        f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alpha:.17g}, beta={beta:.17g}, rho={rho:.17g}, q={q:.17g}, stop_cond={aco.stop_condition}\n best_length={overall_best:.4f},\n avg_len={avg_len}\n time={avg_time:.6f} seconds,\n filename={file}\n")
+    with open("aco_log_new52.txt", "+a") as f:
+        f.write(f"ACO run with n_ants={aco.n_ants}, n_iters={aco.n_iters}, alpha={alpha:.20g}, beta={beta:.20g}, rho={rho:.20g}, q={q:.20g}, stop_cond={aco.stop_condition}\n best_length={overall_best:.4f},\n avg_len={avg_len}\n time={avg_time:.6f} seconds,\n filename={file}\n")
     if avg_len <= minavg_overall:
         minavg_overall = avg_len
-        with open("aco_log.txt", "+a") as f:
+        with open("aco_log_new52.txt", "+a") as f:
             f.write(f"New best overall(avg): {minavg_overall} with average time {overall_time/len(glob.glob('./instances/*.txt')):.6f} seconds\n")
     
